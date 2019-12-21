@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Xml-Rest-Api</name>
+    <name>xml_to_api_isam_eeep</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -67,19 +67,309 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2014&#x2f;10&#x2f;01 21&#x3a;16&#x3a;16.771</created_date>
+  <created_date>2019&#x2f;11&#x2f;29 10&#x3a;42&#x3a;47.082</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2014&#x2f;10&#x2f;01 21&#x3a;16&#x3a;16.771</modified_date>
+  <modified_date>2019&#x2f;11&#x2f;29 10&#x3a;42&#x3a;47.082</modified_date>
   </info>
   <notepads>
   </notepads>
   <order>
-  <hop> <from>Get data from XML</from><to>Select values</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>Filter rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>Select values 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 2</from><to>REST Client</to><enabled>Y</enabled> </hop>
+  <hop> <from>Captura do Token - Regex</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Captura do Token - Regex</from><to>Seleciona Headers &#x2b; Token</to><enabled>Y</enabled> </hop>
+  <hop> <from>Seleciona Headers &#x2b; Token</from><to>Header Authorization Completo</to><enabled>Y</enabled> </hop>
+  <hop> <from>Header Authorization Completo</from><to>Separa Headers</to><enabled>Y</enabled> </hop>
+  <hop> <from>Separa Headers</from><to>Envia para API via REST</to><enabled>Y</enabled> </hop>
+  <hop> <from>Leitura Pauta Modular XML</from><to>Seleciona Campos</to><enabled>Y</enabled> </hop>
+  <hop> <from>Adiciona Parametros API</from><to>Pedido Token</to><enabled>Y</enabled> </hop>
+  <hop> <from>Seleciona Campos</from><to>Adiciona Parametros API</to><enabled>Y</enabled> </hop>
+  <hop> <from>Envia para API via REST</from><to>Seleciona HTTP Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Seleciona HTTP Status</from><to>Registo de Log</to><enabled>Y</enabled> </hop>
+  <hop> <from>Registo de Log</from><to>Cria&#xe7;&#xe3;o do Ficheiro Log</to><enabled>Y</enabled> </hop>
+  <hop> <from>Pedido Token</from><to>Captura do Token - Regex</to><enabled>Y</enabled> </hop>
   </order>
+  <step>
+    <name>Adiciona Parametros API</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>method</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Bearer </nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>Accept</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>application&#x2f;json</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>urlToken</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>http&#x3a;&#x2f;&#x2f;XPTO&#x2f;isam&#x2f;public&#x2f;api&#x2f;login&#x3f;</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>paramsToken</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>email&#x3d;XPTO&#x26;password&#x3d;XPTO</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>email</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>XPTO</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>password</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>XPTO</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>400</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+  <step>
+    <name>Captura do Token - Regex</name>
+    <type>RegexEval</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <script><![CDATA[(.*)[\:]\"(.*)[\"](.*)]]></script>    <matcher>authResult</matcher>
+    <resultfieldname>REGEX_evaluation</resultfieldname>
+    <usevar>N</usevar>
+    <allowcapturegroups>Y</allowcapturegroups>
+    <replacefields>Y</replacefields>
+    <canoneq>N</canoneq>
+    <caseinsensitive>N</caseinsensitive>
+    <comment>N</comment>
+    <dotall>N</dotall>
+    <multiline>N</multiline>
+    <unicode>N</unicode>
+    <unix>N</unix>
+    <fields>
+      <field>
+        <name>begin</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+      </field>
+      <field>
+        <name>token</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+      </field>
+      <field>
+        <name>end</name>
+        <type>String</type>
+        <format/>
+        <group/>
+        <decimal/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif/>
+        <ifnull/>
+        <trimtype>none</trimtype>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>752</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+  <step>
+    <name>Cria&#xe7;&#xe3;o do Ficheiro Log</name>
+    <type>TextFileOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <separator> - </separator>
+    <enclosure>&#x22;</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine>-------------------------------------------------------</endedLine>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>C&#x3a;&#x5c;isam&#x5c;logs&#x5c;logs_api&#x5c;http_logs_</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>Y</SpecifyFormat>
+      <date_time_format>yyyyMMdd_HHmmss</date_time_format>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>Y</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>N&#xfa;mero</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Disciplina</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>M&#xf3;dulo</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Nota</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Mensagem</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>Http Status</name>
+        <type>Integer</type>
+        <format>&#x23;&#x3b;-&#x23;</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>0</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>224</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
   <step>
     <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
@@ -93,15 +383,14 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>247</xloc>
-      <yloc>306</yloc>
+      <xloc>992</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
-    <name>Filter rows</name>
-    <type>FilterRows</type>
+    <name>Envia para API via REST</name>
+    <type>Rest</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -110,26 +399,156 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29;</send_true_to>
-<send_false_to>Select values 2</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>nota_val</leftvalue>
- <function>&#x3d;</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>NS</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
+    <applicationType>JSON</applicationType>
+    <method>POST</method>
+    <url>http&#x3a;&#x2f;&#x2f;XPTO&#x2f;isam&#x2f;public&#x2f;api&#x2f;inserir&#x3f;</url>
+    <urlInField>N</urlInField>
+    <dynamicMethod>N</dynamicMethod>
+    <methodFieldName/>
+    <urlField/>
+    <bodyField/>
+    <httpLogin/>
+    <httpPassword/>
+    <httpPassword>Encrypted </httpPassword>
+    <proxyHost/>
+    <proxyPort/>
+    <preemptive>N</preemptive>
+    <trustStoreFile/>
+    <trustStorePassword>Encrypted </trustStorePassword>
+    <headers>
+      <header>
+        <field>Accept</field>
+        <name>Accept</name>
+        </header>
+      <header>
+        <field>Authorization</field>
+        <name>Authorization</name>
+        </header>
+      </headers>
+    <parameters>
+      <parameter>
+        <field>curso_desc</field>
+        <name>curso_desc</name>
+        </parameter>
+      <parameter>
+        <field>id_aluno</field>
+        <name>id_aluno</name>
+        </parameter>
+      <parameter>
+        <field>name_aluno</field>
+        <name>name_aluno</name>
+        </parameter>
+      <parameter>
+        <field>disc_desc</field>
+        <name>disc_desc</name>
+        </parameter>
+      <parameter>
+        <field>id_modulo</field>
+        <name>id_modulo</name>
+        </parameter>
+      <parameter>
+        <field>nota_val</field>
+        <name>nota_val</name>
+        </parameter>
+      <parameter>
+        <field>data_final</field>
+        <name>data_final</name>
+        </parameter>
+      </parameters>
+    <result>
+      <name>detailsRes</name>
+      <code>httpStatus2</code>
+      <response_time/>
+      </result>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>250</xloc>
-      <yloc>178</yloc>
+      <xloc>240</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
-    <name>Get data from XML</name>
+    <name>Header Authorization Completo</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <separator/>
+    <enclosure/>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>file</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>method</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>token</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+<targetFieldName>Authorization</targetFieldName>
+<targetFieldLength>0</targetFieldLength>
+<removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>576</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+  <step>
+    <name>Leitura Pauta Modular XML</name>
     <type>getXMLData</type>
     <description/>
     <distribute>Y</distribute>
@@ -153,7 +572,7 @@
     <rownum_field/>
     <encoding>UTF-8</encoding>
     <file>
-      <name>C&#x3a;&#x5c;ETL&#x5c;pauta.xml</name>
+      <name>c&#x3a;&#x5c;isam&#x5c;pm_folder&#x5c;pauta.xml</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -282,17 +701,16 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>101</xloc>
-      <yloc>48</yloc>
+      <xloc>96</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
-    <name>REST Client</name>
+    <name>Pedido Token</name>
     <type>Rest</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -301,7 +719,7 @@
            </partitioning>
     <applicationType>JSON</applicationType>
     <method>POST</method>
-    <url>http&#x3a;&#x2f;&#x2f;127.0.0.1&#x2f;myapi&#x2f;public&#x2f;api&#x2f;alunos</url>
+    <url>http&#x3a;&#x2f;&#x2f;XPTO&#x2f;isam&#x2f;public&#x2f;api&#x2f;login&#x3f;</url>
     <urlInField>N</urlInField>
     <dynamicMethod>N</dynamicMethod>
     <methodFieldName/>
@@ -314,57 +732,86 @@
     <proxyPort/>
     <preemptive>N</preemptive>
     <trustStoreFile/>
-    <trustStorePassword/>
+    <trustStorePassword>Encrypted </trustStorePassword>
     <headers>
       </headers>
     <parameters>
       <parameter>
-        <field>curso_desc</field>
-        <name>curso_desc</name>
+        <field>email</field>
+        <name>email</name>
         </parameter>
       <parameter>
-        <field>id_aluno</field>
-        <name>id_aluno</name>
-        </parameter>
-      <parameter>
-        <field>name_aluno</field>
-        <name>name_aluno</name>
-        </parameter>
-      <parameter>
-        <field>disc_desc</field>
-        <name>disc_desc</name>
-        </parameter>
-      <parameter>
-        <field>id_modulo</field>
-        <name>id_modulo</name>
-        </parameter>
-      <parameter>
-        <field>nota_val</field>
-        <name>nota_val</name>
-        </parameter>
-      <parameter>
-        <field>data_final</field>
-        <name>data_final</name>
+        <field>password</field>
+        <name>password</name>
         </parameter>
       </parameters>
     <result>
-      <name>result</name>
-      <code/>
-      <response_time/>
+      <name>authResult</name>
+      <code>httpStatus</code>
+      <response_time>timeResult</response_time>
       </result>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>499</xloc>
-      <yloc>180</yloc>
+      <xloc>576</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Select values</name>
+    <name>Registo de Log</name>
+    <type>WriteToLog</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <loglevel>log_level_detailed</loglevel>
+      <displayHeader>Y</displayHeader>
+      <limitRows>N</limitRows>
+      <limitRowsNumber>0</limitRowsNumber>
+      <logmessage>Registo da inser&#xe7;&#xe3;o autom&#xe1;tica de classifica&#xe7;&#xf5;es modulares</logmessage>
+    <fields>
+      <field>
+        <name>N&#xfa;mero</name>
+        </field>
+      <field>
+        <name>Aluno</name>
+        </field>
+      <field>
+        <name>Disciplina</name>
+        </field>
+      <field>
+        <name>M&#xf3;dulo</name>
+        </field>
+      <field>
+        <name>Nota</name>
+        </field>
+      <field>
+        <name>Data</name>
+        </field>
+      <field>
+        <name>Mensagem</name>
+        </field>
+      <field>
+        <name>Http Status</name>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>80</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+  <step>
+    <name>Seleciona Campos</name>
     <type>SelectValues</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -402,7 +849,7 @@
       </field>        <select_unspecified>Y</select_unspecified>
       <meta>        <name>curso_desc</name>
         <rename>curso_desc</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -417,7 +864,7 @@
         <storage_type/>
       </meta>      <meta>        <name>id_aluno</name>
         <rename>id_aluno</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -432,7 +879,7 @@
         <storage_type/>
       </meta>      <meta>        <name>name_aluno</name>
         <rename>name_aluno</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -447,7 +894,7 @@
         <storage_type/>
       </meta>      <meta>        <name>disc_desc</name>
         <rename>disc_desc</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -462,7 +909,7 @@
         <storage_type/>
       </meta>      <meta>        <name>id_modulo</name>
         <rename>id_modulo</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -477,7 +924,7 @@
         <storage_type/>
       </meta>      <meta>        <name>nota_val</name>
         <rename>nota_val</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -492,7 +939,7 @@
         <storage_type/>
       </meta>      <meta>        <name>data_final</name>
         <rename>data_final</rename>
-        <type>String</type>
+        <type>None</type>
         <length>-2</length>
         <precision>-2</precision>
         <conversion_mask/>
@@ -507,14 +954,13 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>247</xloc>
-      <yloc>49</yloc>
+      <xloc>256</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
-    <name>Select values 2</name>
+    <name>Seleciona HTTP Status</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -524,7 +970,70 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>curso_desc</name>
+    <fields>      <field>        <name>id_aluno</name>
+        <rename>N&#xfa;mero</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>name_aluno</name>
+        <rename>Aluno</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>disc_desc</name>
+        <rename>Disciplina</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>id_modulo</name>
+        <rename>M&#xf3;dulo</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>nota_val</name>
+        <rename>Nota</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>data_final</name>
+        <rename>Data</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>detailsRes</name>
+        <rename>Mensagem</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>httpStatus2</name>
+        <rename>Http Status</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>80</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+  <step>
+    <name>Seleciona Headers &#x2b; Token</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>method</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>token</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>Accept</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>curso_desc</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -555,16 +1064,69 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>390</xloc>
-      <yloc>179</yloc>
+      <xloc>752</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
-
+  <step>
+    <name>Separa Headers</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>Accept</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>Authorization</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>curso_desc</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>id_aluno</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>name_aluno</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>disc_desc</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>id_modulo</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>nota_val</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>data_final</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>400</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
   <step_error_handling>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>

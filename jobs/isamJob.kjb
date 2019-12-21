@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>isamJob</name>
+<name>isamJob</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -56,11 +56,12 @@
       </entry>
     <entry>
       <name>Transformation</name>
+
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C&#x3a;&#x5c;Users&#x5c;MRPC&#x5c;Desktop&#x5c;PROJETO-ISAM&#x5c;Transformations&#x5c;xml_to_api_rest.ktr</filename>
+      <filename>C&#x3a;&#x5c;isam&#x5c;transformations&#x5c;xml_to_api_isam_eeep.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -68,14 +69,14 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>Y</set_logfile>
-      <logfile>C&#x3a;&#x5c;ETL&#x5c;log</logfile>
+      <logfile>C&#x3a;&#x5c;isam&#x5c;logs&#x5c;logs_etl&#x5c;isam_log</logfile>
       <logext>txt</logext>
       <add_date>Y</add_date>
       <add_time>Y</add_time>
-      <loglevel>Basic</loglevel>
+      <loglevel>Detailed</loglevel>
       <cluster>N</cluster>
       <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
+      <set_append_logfile>Y</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
@@ -84,23 +85,62 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>224</xloc>
-      <yloc>48</yloc>
+      <xloc>329</xloc>
+      <yloc>50</yloc>
       </entry>
     <entry>
-      <name>Success</name>
+      <name>Successo</name>
       <description/>
       <type>SUCCESS</type>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>352</xloc>
-      <yloc>48</yloc>
+      <xloc>531</xloc>
+      <yloc>50</yloc>
+      </entry>
+    <entry>
+      <name>Mensagem de Sucesso</name>
+      <description/>
+      <type>MSGBOX_INFO</type>
+      <bodymessage>Job executado com sucesso&#x21;</bodymessage>
+      <titremessage>Mensagem</titremessage>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>693</xloc>
+      <yloc>47</yloc>
+      </entry>
+    <entry>
+      <name>Aborta Job</name>
+      <description/>
+      <type>ABORT</type>
+      <message>Erro na transforma&#xe7;&#xe3;o</message>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>329</xloc>
+      <yloc>185</yloc>
+      </entry>
+    <entry>
+      <name>Regista Erros</name>
+      <description/>
+      <type>WRITE_TO_FILE</type>
+      <filename>C&#x3a;&#x5c;isam&#x5c;logs&#x5c;log_erros.txt</filename>
+      <createParentFolder>N</createParentFolder>
+      <appendFile>Y</appendFile>
+      <content>Erro na transforma&#xe7;&#xe3;o</content>
+      <encoding>UTF-8</encoding>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>524</xloc>
+      <yloc>184</yloc>
       </entry>
   </entries>
   <hops>
     <hop>
       <from>START</from>
+      <to>Executa Transformacao</to>
       <to>Transformation</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -109,8 +149,35 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Transformation</from>
-      <to>Success</to>
+      <from>Executa Transformacao</from>
+      <to>Successo</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Successo</from>
+      <to>Mensagem de Sucesso</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Executa Transformacao</from>
+      <to>Aborta Job</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Aborta Job</from>
+      <to>Regista Erros</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -120,5 +187,4 @@
   </hops>
   <notepads>
   </notepads>
-
 </job>

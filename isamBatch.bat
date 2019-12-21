@@ -1,3 +1,4 @@
-echo on
-cd C:\data-integration
-kitchen.bat /file:C:/ETL/JobAuto.kjb /level:Basic
+﻿echo on
+cd C:\isam\pdi
+kitchen.bat /file:C:/isam/jobs/isamjob_eeep.kjb /level:Basic
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>isamjob_eeep</name>
+<name>isamJob</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -51,11 +51,12 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>111</xloc>
-      <yloc>50</yloc>
+      <xloc>80</xloc>
+      <yloc>48</yloc>
       </entry>
     <entry>
-      <name>Executa Transformacao</name>
+      <name>Transformation</name>
+
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
@@ -140,6 +141,7 @@
     <hop>
       <from>START</from>
       <to>Executa Transformacao</to>
+      <to>Transformation</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -185,5 +187,4 @@
   </hops>
   <notepads>
   </notepads>
-
 </job>

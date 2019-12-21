@@ -179,7 +179,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Captura do Token - Regex</name>
     <type>RegexEval</type>
@@ -248,7 +247,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Cria&#xe7;&#xe3;o do Ficheiro Log</name>
     <type>TextFileOutput</type>
@@ -372,7 +370,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
@@ -391,7 +388,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Envia para API via REST</name>
     <type>Rest</type>
@@ -471,7 +467,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Header Authorization Completo</name>
     <type>ConcatFields</type>
@@ -552,7 +547,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Leitura Pauta Modular XML</name>
     <type>getXMLData</type>
@@ -712,7 +706,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Pedido Token</name>
     <type>Rest</type>
@@ -814,7 +807,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Seleciona Campos</name>
     <type>SelectValues</type>
@@ -967,7 +959,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Seleciona HTTP Status</name>
     <type>SelectValues</type>
@@ -1019,7 +1010,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Seleciona Headers &#x2b; Token</name>
     <type>SelectValues</type>
@@ -1079,7 +1069,6 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step>
     <name>Separa Headers</name>
     <type>SelectValues</type>
@@ -1135,11 +1124,9 @@
       <draw>Y</draw>
       </GUI>
     </step>
-
   <step_error_handling>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>
